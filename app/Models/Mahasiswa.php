@@ -9,4 +9,8 @@ class Mahasiswa extends Model
 {
     use HasFactory;
     protected $guarded = [];
+    // public $table = "mahasiswas";
+    // protected $primaryKey = "nim";
+    // public $incrementing= false;
+    // protected $keyTep ="string";
 }

@@ -15,8 +15,30 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::apiResource('mahasiswa', MahasiswaController::class);
+Route::post('/register', [\App\Http\Controllers\Api\AuthController::class, 'register']);
+Route::post('/login', [\App\Http\Controllers\Api\AuthController::class, 'login']);
+
+Route::middleware('auth:sanctum')->group(function () {
+    Route::post('/logout', [\App\Http\Controllers\Api\AuthController::class, 'logout']);
+
+    Route::post('mahasiswa/create', [MahasiswaController::class, 'store']);
+    Route::put('mahasiswa/update', [MahasiswaController::class, 'update']);
+    Route::get('mahasiswa/read/{nim}', [MahasiswaController::class, 'show']);
+    Route::delete('mahasiswa/delete/{nim}', [MahasiswaController::class, 'destroy']);
+  
+
+   
+
+});
+
+
+
+
+
+
+

@@ -15,10 +15,13 @@ return new class extends Migration
     {
         Schema::create('mahasiswas', function (Blueprint $table) {
             $table->id();
-            $table->string('nama');  
-            $table->string('ttl');  
-            $table->string('alamat');  
-            $table->string('email');  
+            $table->string('nim')->unique();
+            $table->string('nama');
+            $table->string('umur');
+            $table->string('alamat');
+            $table->string('kota');
+            $table->string('kelas');
+            $table->string('jurusan');
             $table->timestamps();
         });
     }

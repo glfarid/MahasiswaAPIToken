@@ -7,17 +7,9 @@ use Illuminate\Http\Request;
 
 class MahasiswaController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
+   public function index()
     {
-        $mahasiswa = Mahasiswa::paginate(10);
-        return response()->json([
-            'data' => $mahasiswa
-        ]);
+        return 'hai index';
     }
 
     /**
@@ -38,15 +30,8 @@ class MahasiswaController extends Controller
      */
     public function store(Request $request)
     {
-        $mahasiswa = Mahasiswa::create([
-            'nama' => $request->nama,
-            'ttl' => $request->ttl,
-            'alamat' => $request->alamat,
-            'email' => $request->email
-        ]);
-        return response()->json([
-            'data' => $mahasiswa
-        ]);
+        Mahasiswa::create($request->json()->all());
+        return response()->json(['status' => 'berhasil'], 200);
     }
 
     /**
@@ -55,11 +40,10 @@ class MahasiswaController extends Controller
      * @param  \App\Models\Mahasiswa  $mahasiswa
      * @return \Illuminate\Http\Response
      */
-    public function show(Mahasiswa $mahasiswa)
+    public function show(Mahasiswa $mahasiswa, $nim)
     {
-        return response()->json([
-            'data' => $mahasiswa
-        ]);
+        $mahasiswa = Mahasiswa::where('nim', $nim)->first();
+        return $mahasiswa;
     }
 
     /**
@@ -82,16 +66,9 @@ class MahasiswaController extends Controller
      */
     public function update(Request $request, Mahasiswa $mahasiswa)
     {
-        $mahasiswa->nama = $request->nama;
-        $mahasiswa->ttl = $request->ttl;
-        $mahasiswa->alamat = $request->alamat;
-        $mahasiswa->email = $request->email;
-        $mahasiswa->save();
-
-        return response()->json([
-            'data' => $mahasiswa
-        ]);
-
+        $mahasiswa = Mahasiswa::where('nim', $request->json('nim'))->first();
+        $mahasiswa->update($request->json()->all());
+        return response()->json(['status' => 'berhasil'], 200);
     }
 
     /**
@@ -100,11 +77,10 @@ class MahasiswaController extends Controller
      * @param  \App\Models\Mahasiswa  $mahasiswa
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Mahasiswa $mahasiswa)
+    public function destroy(Mahasiswa $mahasiswa, $nim)
     {
+        $mahasiswa = Mahasiswa::where('nim', $nim)->first();
         $mahasiswa->delete();
-        return response()->json([
-            'message' => 'Mahasiswa Delete'
-        ], 204);
+        return response()->json(['status' => 'terhapus'], 200);
     }
 }
